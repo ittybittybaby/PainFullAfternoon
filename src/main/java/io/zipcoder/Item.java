@@ -15,7 +15,7 @@ public class Item {
      * @param type
      * @param expiration
      */
-    public Item(String name, Double price, String type, String expiration){
+    public Item(String name, Double price, String type, String expiration) {
         this.name = name;
         this.price = price;
         this.type = type;
@@ -42,7 +42,7 @@ public class Item {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "name:" + name + " price:" + price + " type:" + type + " expiration:" + expiration;
     }
 }
