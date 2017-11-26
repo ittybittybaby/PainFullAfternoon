@@ -10,7 +10,6 @@ public class ItemParser {
 
     private ArrayList<String> errorLog = new ArrayList<String>();
 
-
     public ArrayList<String> parseRawDataIntoStringArray(String rawData) {
         String stringPattern = "##";
         ArrayList<String> response = splitStringWithRegexPattern(stringPattern, rawData);
@@ -27,18 +26,17 @@ public class ItemParser {
 
         ArrayList<String> rawPairs = findKeyValuePairsInRawItemData(rawItem.toLowerCase());
 
-        List<Pattern> patterns = new ArrayList<>();
-
         final Pattern
                 namePattern = Pattern.compile("(?i)([n][a][m][e]):(\\w*\\d*)"),
                 pricePattern = Pattern.compile("(?i)([p][r][i][c][e]):(\\d+\\.\\d{2})"),
                 typePattern = Pattern.compile("(?i)([t][y][p][e]):(\\w+)"),
                 expiresPattern = Pattern.compile("(?i)([e][x][p]\\w*):(\\d/\\d{2}/\\d{4})(##)");
 
-//        patterns.add(namePattern);
-//        patterns.add(pricePattern);
-//        patterns.add(typePattern);
-//        patterns.add(expiresPattern);
+        final Matcher
+                nameMatcher = namePattern.matcher(rawPairs.get(0)),
+                priceMatcher = pricePattern.matcher(rawPairs.get(1)),
+                typeMatcher = typePattern.matcher(rawPairs.get(2)),
+                expiresMatcher = expiresPattern.matcher(rawPairs.get(3));
 
         // Variables for creating item object
         String name;
@@ -46,14 +44,6 @@ public class ItemParser {
         String type;
         String expiration;
 
-        // Variables used to return data
-//        Item returnValue = null;
-//        String catchError = null;
-
-        Matcher nameMatcher = namePattern.matcher(rawPairs.get(0));
-        Matcher priceMatcher = pricePattern.matcher(rawPairs.get(1));
-        Matcher typeMatcher = typePattern.matcher(rawPairs.get(2));
-        Matcher expiresMatcher = expiresPattern.matcher(rawPairs.get(3));
 
         if(nameMatcher.matches() && nameMatcher.group(2).length() > 0) {
             name = nameMatcher.group(2);
@@ -143,5 +133,19 @@ public class ItemParser {
         return errorLog;
     }
 
+//    private String validateData(Pattern pattern, String rawData) throws ItemParseException {
+//        Matcher matcher = pattern.matcher(rawData);
+//        String retString;
+//
+//        if(matcher.matches() && matcher.group(2).length() > 0) {
+//            retString = matcher.group(2);
+//        }
+//        else {
+//            String field = matcher.group(1);
+//            errorLog.add("Invalid " + field + " data");
+//            throw new ItemParseException("Invalid " + field + " field");
+//        }
+//        return retString;
+//    }
 
 }
